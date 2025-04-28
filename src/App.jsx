@@ -1,35 +1,67 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { questions } from './data/questions';
+import QuestionCard from './components/QuestionCard';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [current, setCurrent] = useState(0);
+  const [score, setScore] = useState(0);
+  const [feedback, setFeedback] = useState('');
+  const [finished, setFinished] = useState(false);
+
+  const handleAnswer = (choice) => {
+    const correct = questions[current].answer;
+    if (choice === correct) {
+      setScore(score + 1);
+      setFeedback('Correct!');
+    } else {
+      setFeedback(`Wrong—it was ${correct}`);
+    }
+  };
+
+  const handleNext = () => {
+    setFeedback('');
+    if (current + 1 < questions.length) {
+      setCurrent(current + 1);
+    } else {
+      setFinished(true);
+    }
+  };
+
+  const handleRestart = () => {
+    setCurrent(0);
+    setScore(0);
+    setFinished(false);
+    setFeedback('');
+  };
+
+  if (finished) {
+    return (
+      <div className="text-center p-8">
+        <h1 className="text-2xl mb-4">Your Score: {score} / {questions.length}</h1>
+        <button
+          onClick={handleRestart}
+          className="px-4 py-2 bg-blue-500 text-white rounded"
+        >
+          Restart Quiz
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="p-8">
+      <div className="mb-4">
+        Question {current + 1} / {questions.length}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <QuestionCard question={questions[current]} onAnswer={handleAnswer} />
+      {feedback && <div className="mt-4 text-lg">{feedback}</div>}
+      <button
+        onClick={handleNext}
+        className="mt-6 px-4 py-2 bg-green-500 text-white rounded"
+      >
+        Next
+      </button>
+    </div>
+  );
 }
-
-export default App
