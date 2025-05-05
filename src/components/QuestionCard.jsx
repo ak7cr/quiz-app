@@ -3,7 +3,7 @@ import React from 'react';
 export default function QuestionCard({ question, onAnswer }) {
   return (
     <div className="max-w-md mx-auto p-4 bg-white rounded shadow">
-      <h2 className="text-xl font-semibold mb-4">{question.text}</h2>
+      <h2 className="text-xl font-semibold mb-4 text-black">{question.text}</h2>
       <div className="space-y-2">
         {question.options.map(opt => (
           <button
