@@ -2,12 +2,15 @@ import { useState } from 'react'
 import './App.css'
 import { questions } from './data/questions';
 import QuestionCard from './components/QuestionCard';
+import LeaderboardPage from './components/LeaderboardPage';
 
 export default function App() {
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState('');
   const [finished, setFinished] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [currentUser, setCurrentUser] = useState('');
 
   const handleAnswer = (choice) => {
     const correct = questions[current].answer;
@@ -42,6 +45,29 @@ export default function App() {
     setFeedback('');
   };
 
+  const handleLogout = () => {
+    setCurrentUser('');
+    setShowLeaderboard(false);
+    setFinished(false);
+  };
+
+  const handleViewLeaderboard = () => {
+    setShowLeaderboard(true);
+  };
+
+  if (showLeaderboard) {
+    return (
+      <LeaderboardPage
+        currentUser={currentUser}
+        onPlayAgain={() => {
+          setShowLeaderboard(false);
+          setFinished(false);
+        }}
+        onLogout={handleLogout}
+      />
+    );
+  }
+
   if (finished) {
     return (
       <div className="text-center p-8">
@@ -51,6 +77,12 @@ export default function App() {
           className="px-4 py-2 bg-blue-500 text-white rounded"
         >
           Restart Quiz
+        </button>
+        <button
+          onClick={handleViewLeaderboard}
+          className="ml-4 px-4 py-2 bg-gray-500 text-white rounded"
+        >
+          View Leaderboard
         </button>
       </div>
     );

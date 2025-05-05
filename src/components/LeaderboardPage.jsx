@@ -27,7 +27,7 @@ export default function LeaderboardPage({ currentUser, onPlayAgain, onLogout }) 
         </div>
       )}
       
-      <div className="bg-white shadow-md rounded-lg overflow-hidden">
+      <div className="bg-white bg-opacity-75 shadow-md rounded-lg overflow-hidden">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
@@ -80,4 +80,4 @@ export default function LeaderboardPage({ currentUser, onPlayAgain, onLogout }) 
       </div>
     </div>
   );
-} 
+}
