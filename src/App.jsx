@@ -28,6 +28,13 @@ export default function App() {
     }
   };
 
+  const handleBack = () => {
+    if (current > 0) {
+      setFeedback('');
+      setCurrent(current - 1);
+    }
+  };
+
   const handleRestart = () => {
     setCurrent(0);
     setScore(0);
@@ -56,6 +63,12 @@ export default function App() {
       </div>
       <QuestionCard question={questions[current]} onAnswer={handleAnswer} />
       {feedback && <div className="mt-4 text-lg">{feedback}</div>}
+      <button
+        onClick={handleBack}
+        className="mt-6 px-4 py-2 bg-gray-500 text-white rounded mr-2"
+      >
+        Back
+      </button>
       <button
         onClick={handleNext}
         className="mt-6 px-4 py-2 bg-green-500 text-white rounded"
