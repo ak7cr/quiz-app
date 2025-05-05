@@ -19,16 +19,15 @@ export const getUsers = () => {
 };
 
 // Create or validate user
-export const authenticateUser = (username, password) => {
+export const authenticateUser = (username) => {
   const users = getUsers();
-  
+
   // Check if user exists
   if (users[username]) {
-    // Validate password
-    return users[username] === password;
+    return true;
   } else {
     // Create new user
-    users[username] = password;
+    users[username] = true; // No password required
     localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
     return true;
   }
@@ -65,4 +64,4 @@ export const updateLeaderboard = (username, score, timeSpent) => {
   localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(topEntries));
   
   return topEntries;
-}; 
+};
